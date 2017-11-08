@@ -13,6 +13,7 @@ class DBOpenHelper extends SQLiteOpenHelper implements EventReceiver{
     private static final int DATABASE_VERSION =1;
     private static final String DATABASE_NAME= "DATA";
     private EventManager eventManager;
+    private SQLiteDatabase database=null;
 
     DBOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,7 +37,8 @@ class DBOpenHelper extends SQLiteOpenHelper implements EventReceiver{
                 eventManager= (EventManager) o;
                 break;
             case EventTag.DATABASE_GET_DB:
-                ((DatabaseContainer) o).setSqLiteDatabase(this.getWritableDatabase());
+                if (database==null) {database=this.getWritableDatabase();}
+                ((DatabaseContainer) o).setSqLiteDatabase(database);
                 break;
         }
     }

@@ -8,12 +8,14 @@ import android.widget.Toast;
 import EDEMVP.EventManager;
 import EDEMVP.EventReceiver;
 import EDEMVP.HoldingEventManager;
+import ragingpython.crystalcash.entities.EntityManager;
 
 public class MainActivity extends Activity implements EventReceiver{
     EventManager eventManager;
     FragmentControl fragmentControl;
     FrameLayout fragmentContainer;
     DBOpenHelper dbOpenHelper;
+    EntityManager entityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +27,12 @@ public class MainActivity extends Activity implements EventReceiver{
         eventManager = new EventManager();
         dbOpenHelper = new DBOpenHelper(getApplicationContext());
         fragmentControl = new FragmentControl(getFragmentManager(),fragmentContainer);
+        entityManager = new EntityManager();
 
         eventManager.registerReceiver(this);
         eventManager.registerReceiver(dbOpenHelper);
         eventManager.registerReceiver(fragmentControl);
+        eventManager.registerReceiver(entityManager);
 
 
         eventManager.broadcastEvent(EventTag.INIT_STAGE_EVENT_MANAGER, eventManager);

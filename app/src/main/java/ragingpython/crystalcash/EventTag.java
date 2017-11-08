@@ -14,5 +14,7 @@ public class EventTag {
     public static final int DATABASE_CREATE_DB=3000;            //SQLiteDatabase
     public static final int DATABASE_DELETE_DB=3001;            //SQLiteDatabase
     public static final int DATABASE_GET_DB=3002;               //DatabaseContainer
-    //EVENT INTERACTION
+    //ENTITIES
+    public static final int ENTITIES_RELOAD_ENTITIES=4000;      //LinkedList
+    public static final int ENTITIES_SELFDESTRUCT=4001;         //null
 }
