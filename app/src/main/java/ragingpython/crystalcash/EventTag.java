@@ -21,8 +21,10 @@ public class EventTag {
     public static final int ENTITY_CONSTRUCTOR_LOAD_ENTITIES =5000;//null
     //ENTITY
     public static final int ENTITY_DESTROY =6000;               //null
+    public static final int ENTITY_GET_HASH =6001;              //HashSet
     public static final int ENTITY_WALLET_NEW = 6100;           //null
     //VIEW
     public static final int VIEW_FIND = 7000;                   //ViewContainer
+    public static final int VIEW_DESTROY = 7001;                //null
 
 }

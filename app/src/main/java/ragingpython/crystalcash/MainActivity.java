@@ -26,6 +26,8 @@ public class MainActivity extends Activity implements EventReceiver{
         eventManager.registerReceiver(new FragmentControl(getFragmentManager(), fragmentContainer));
         eventManager.registerReceiver(new EntityManager());
 
+
+        eventManager.broadcastEvent(EventTag.ENTITY_MANAGER_RELOAD_ENTITIES, null);
         eventManager.broadcastEvent(EventTag.INIT_FINAL_STAGE, null);
     }
 

@@ -2,6 +2,8 @@ package ragingpython.crystalcash.entities;
 
 import android.view.View;
 
+import java.util.HashSet;
+
 import EDEMVP.EventManager;
 import EDEMVP.EventReceiver;
 import ragingpython.crystalcash.EventTag;
@@ -25,6 +27,9 @@ public abstract class CCEntity implements EventReceiver{
                 break;
             case EventTag.ENTITY_DESTROY:
                 eventManager.broadcastEvent(EventTag.INIT_DESTROY, this);
+                break;
+            case EventTag.ENTITY_GET_HASH:
+                ((HashSet<String>) o).add(getHash());
                 break;
         }
     }

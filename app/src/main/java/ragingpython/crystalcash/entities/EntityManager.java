@@ -1,7 +1,10 @@
 package ragingpython.crystalcash.entities;
 
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.HashSet;
 
 import EDEMVP.EventManager;
 import EDEMVP.EventReceiver;
@@ -14,6 +17,8 @@ public class EntityManager implements EventReceiver{
     private static final String DELETE_DB="drop table entity";
     private EventManager eventManager;
     private SQLiteDatabase database;
+    private HashSet<String> hashSet;
+
 
     private void createEntityConstructors() {
         //TODO: insert entity constructors here
@@ -25,7 +30,11 @@ public class EntityManager implements EventReceiver{
         eventManager.broadcastEvent(EventTag.DATABASE_GET_DB, databaseContainer);
         database=databaseContainer.getSqLiteDatabase();
         eventManager.broadcastEvent(EventTag.ENTITY_DESTROY, null);
+        eventManager.broadcastEvent(EventTag.VIEW_DESTROY, null);
         eventManager.broadcastEvent(EventTag.ENTITY_CONSTRUCTOR_LOAD_ENTITIES, null);
+
+        hashSet=new HashSet<>();
+        eventManager.broadcastEvent(EventTag.ENTITY_GET_HASH, hashSet);
     }
 
     @Override
