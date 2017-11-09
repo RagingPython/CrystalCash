@@ -41,9 +41,15 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
     }
 
     @Override
+    public void destroy() {
+        eventManager=null;
+        entityContainer=null;
+    }
+
+    @Override
     public void eventMapping(int eventTag, Object o) {
         switch(eventTag) {
-            case EventTag.INIT_STAGE_EVENT_MANAGER:
+            case EventTag.INIT_SET_EVENT_MANAGER:
                 eventManager = (EventManager) o;
                 break;
         }

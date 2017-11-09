@@ -31,9 +31,16 @@ class DBOpenHelper extends SQLiteOpenHelper implements EventReceiver{
     }
 
     @Override
+    public void destroy() {
+        eventManager=null;
+        database.close();
+        database=null;
+    }
+
+    @Override
     public void eventMapping(int eventTag, Object o) {
         switch (eventTag) {
-            case EventTag.INIT_STAGE_EVENT_MANAGER:
+            case EventTag.INIT_SET_EVENT_MANAGER:
                 eventManager= (EventManager) o;
                 break;
             case EventTag.DATABASE_GET_DB:

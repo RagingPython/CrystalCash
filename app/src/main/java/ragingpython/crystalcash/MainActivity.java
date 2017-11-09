@@ -7,42 +7,39 @@ import android.widget.Toast;
 
 import EDEMVP.EventManager;
 import EDEMVP.EventReceiver;
-import EDEMVP.HoldingEventManager;
 import ragingpython.crystalcash.entities.EntityManager;
 
 public class MainActivity extends Activity implements EventReceiver{
     EventManager eventManager;
-    FragmentControl fragmentControl;
-    FrameLayout fragmentContainer;
-    DBOpenHelper dbOpenHelper;
-    EntityManager entityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fragmentContainer=findViewById(R.id._fragmentContainer);
+        FrameLayout fragmentContainer=findViewById(R.id._fragmentContainer);
 
         eventManager = new EventManager();
-        dbOpenHelper = new DBOpenHelper(getApplicationContext());
-        fragmentControl = new FragmentControl(getFragmentManager(),fragmentContainer);
-        entityManager = new EntityManager();
 
         eventManager.registerReceiver(this);
-        eventManager.registerReceiver(dbOpenHelper);
-        eventManager.registerReceiver(fragmentControl);
-        eventManager.registerReceiver(entityManager);
-
-
-        eventManager.broadcastEvent(EventTag.INIT_STAGE_EVENT_MANAGER, eventManager);
+        eventManager.registerReceiver(new DBOpenHelper(getApplicationContext()));
+        eventManager.registerReceiver(new FragmentControl(getFragmentManager(), fragmentContainer));
+        eventManager.registerReceiver(new EntityManager());
 
         eventManager.broadcastEvent(EventTag.INIT_FINAL_STAGE, null);
     }
 
     @Override
+    public void destroy() {
+        eventManager=null;
+    }
+
+    @Override
     public void eventMapping(int eventTag, Object o) {
         switch (eventTag) {
+            case EventTag.INIT_SET_EVENT_MANAGER:
+                eventManager= (EventManager) o;
+                break;
             case EventTag.DEBUG_TOAST:
                 Toast.makeText(this, (String) o, Toast.LENGTH_SHORT).show();
                 break;

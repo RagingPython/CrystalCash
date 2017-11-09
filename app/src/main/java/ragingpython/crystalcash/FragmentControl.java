@@ -9,10 +9,9 @@ import EDEMVP.EventReceiver;
 import EDEMVP.HoldingEventManager;
 
 class FragmentControl implements EventReceiver {
-    private FragmentManager fragmentManager;
     private EventManager eventManager;
+    private FragmentManager fragmentManager;
     private FrameLayout fragmentContainer;
-    private HoldingEventManager viewState;
     private Fragment currentFragment = null;
     private MainFragment mainFragment;
 
@@ -25,21 +24,26 @@ class FragmentControl implements EventReceiver {
 
     private void goToFragment(Fragment fragment) {
         if (currentFragment!=null) {
-            viewState.unRegisterReceiver((EventReceiver) currentFragment);
+            eventManager.unRegisterReceiver((EventReceiver) currentFragment);
         }
+        eventManager.registerReceiver((EventReceiver) fragment);
         FragmentTransaction transaction=fragmentManager.beginTransaction();
         transaction.replace(fragmentContainer.getId(),fragment);
         transaction.commit();
         fragmentManager.executePendingTransactions();
         currentFragment=fragment;
-        viewState.registerReceiver((EventReceiver) fragment);
+    }
+
+    @Override
+    public void destroy() {
+        eventManager=null;
     }
 
 
     @Override
     public void eventMapping(int eventTag, Object o) {
         switch (eventTag) {
-            case EventTag.INIT_STAGE_EVENT_MANAGER:
+            case EventTag.INIT_SET_EVENT_MANAGER:
                 eventManager = (EventManager) o;
                 break;
             case EventTag.NAVIGATION_MAIN_FRAGMENT:
