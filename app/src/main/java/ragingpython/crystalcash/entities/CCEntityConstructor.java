@@ -11,8 +11,8 @@ import ragingpython.crystalcash.containers.DatabaseContainer;
 
 public abstract class CCEntityConstructor implements EventReceiver{
 
-    protected EventManager eventManager;
-    protected SQLiteDatabase database;
+    public EventManager eventManager;
+    public SQLiteDatabase database;
 
     public abstract String getDbCreateQuery();
     public abstract String getDbDeleteQuery();
@@ -40,7 +40,7 @@ public abstract class CCEntityConstructor implements EventReceiver{
             case EventTag.ENTITY_CONSTRUCTOR_LOAD_ENTITIES:
                 DatabaseContainer databaseContainer = new DatabaseContainer();
                 eventManager.broadcastEvent(EventTag.DATABASE_GET_DB, databaseContainer);
-                database=databaseContainer.getSqLiteDatabase();
+                database=databaseContainer.sqLiteDatabase;
                 loadEntities();
                 break;
         }

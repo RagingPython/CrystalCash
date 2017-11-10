@@ -2,6 +2,8 @@ package ragingpython.crystalcash.entities.wallet;
 
 import android.database.Cursor;
 import android.view.View;
+
+import ragingpython.crystalcash.containers.ViewContainer;
 import ragingpython.crystalcash.entities.CCEntity;
 
 
@@ -15,9 +17,10 @@ public class Wallet extends CCEntity {
         name=cursor.getString(cursor.getColumnIndex("name"));
     }
 
+
     @Override
-    public View getEntityView() {
-        return null;
+    public void createMainView() {
+        eventManager.registerReceiver(new WalletMainView(getHash()));
     }
 
     @Override

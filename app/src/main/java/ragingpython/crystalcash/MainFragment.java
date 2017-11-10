@@ -52,6 +52,19 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
             case EventTag.INIT_SET_EVENT_MANAGER:
                 eventManager = (EventManager) o;
                 break;
+            case EventTag.FRAGMENT_NOW_NOT_ACTIVE:
+                eventManager.unRegisterReceiver(this);
+                eventManager=null;
+                break;
+            case EventTag.FRAGMENT_NOW_ACTIVE:
+                eventManager.broadcastEvent(EventTag.ENTITY_MANAGER_REFRESH_WIDGETS,null);
+                break;
+            case EventTag.FRAGMENT_CLEAR_WIDGETS:
+                entityContainer.removeAllViews();
+                break;
+            case EventTag.FRAGMENT_INSERT_WIDGET:
+                entityContainer.addView((View) o);
+                break;
         }
     }
 }

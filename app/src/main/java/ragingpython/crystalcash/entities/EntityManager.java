@@ -1,7 +1,6 @@
 package ragingpython.crystalcash.entities;
 
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.HashSet;
@@ -10,6 +9,7 @@ import EDEMVP.EventManager;
 import EDEMVP.EventReceiver;
 import ragingpython.crystalcash.EventTag;
 import ragingpython.crystalcash.containers.DatabaseContainer;
+import ragingpython.crystalcash.containers.ViewContainer;
 import ragingpython.crystalcash.entities.wallet.WalletConstructor;
 
 public class EntityManager implements EventReceiver{
@@ -17,7 +17,6 @@ public class EntityManager implements EventReceiver{
     private static final String DELETE_DB="drop table entity";
     private EventManager eventManager;
     private SQLiteDatabase database;
-    private HashSet<String> hashSet;
 
 
     private void createEntityConstructors() {
@@ -28,14 +27,26 @@ public class EntityManager implements EventReceiver{
     private void initialize() {
         DatabaseContainer databaseContainer = new DatabaseContainer();
         eventManager.broadcastEvent(EventTag.DATABASE_GET_DB, databaseContainer);
-        database=databaseContainer.getSqLiteDatabase();
-        eventManager.broadcastEvent(EventTag.ENTITY_DESTROY, null);
+        database=databaseContainer.sqLiteDatabase;
         eventManager.broadcastEvent(EventTag.VIEW_DESTROY, null);
+        eventManager.broadcastEvent(EventTag.ENTITY_DESTROY, null);
         eventManager.broadcastEvent(EventTag.ENTITY_CONSTRUCTOR_LOAD_ENTITIES, null);
-
-        hashSet=new HashSet<>();
-        eventManager.broadcastEvent(EventTag.ENTITY_GET_HASH, hashSet);
     }
+
+    private void  refreshWidgets() {
+        HashSet<String> hashSet = new HashSet<String>();
+        eventManager.broadcastEvent(EventTag.ENTITY_GET_HASH, hashSet);
+        eventManager.broadcastEvent(EventTag.FRAGMENT_CLEAR_WIDGETS, null);
+        eventManager.broadcastEvent(EventTag.VIEW_DESTROY,null);
+        ViewContainer viewContainer = new ViewContainer();
+        for (String s:hashSet) {
+            viewContainer.hash=s;
+            eventManager.broadcastEvent(EventTag.ENTITY_CREATE_MAIN_VIEW, s);
+            eventManager.broadcastEvent(EventTag.VIEW_GET_VIEW, viewContainer);
+            eventManager.broadcastEvent(EventTag.FRAGMENT_INSERT_WIDGET, viewContainer.view);
+        }
+    }
+
 
     @Override
     public void destroy() {
@@ -56,8 +67,12 @@ public class EntityManager implements EventReceiver{
             case EventTag.DATABASE_DELETE_DB:
                 ((SQLiteDatabase) o).execSQL(DELETE_DB);
                 break;
+            case EventTag.ENTITY_MANAGER_NEW_ENTITY_CREATED:
             case EventTag.ENTITY_MANAGER_RELOAD_ENTITIES:
                 initialize();
+                break;
+            case EventTag.ENTITY_MANAGER_REFRESH_WIDGETS:
+                refreshWidgets();
                 break;
         }
     }

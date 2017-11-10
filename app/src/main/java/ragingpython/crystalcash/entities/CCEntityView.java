@@ -1,22 +1,24 @@
 package ragingpython.crystalcash.entities;
 
-import android.content.Context;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
 import android.view.View;
 
 import EDEMVP.EventManager;
 import EDEMVP.EventReceiver;
 import ragingpython.crystalcash.EventTag;
+import ragingpython.crystalcash.containers.ViewContainer;
 
 
-public class CCEntityView extends View implements EventReceiver {
-    EventManager eventManager;
+public abstract class CCEntityView implements EventReceiver {
+    public EventManager eventManager;
+    public String hash=null;
+    public View mainView;
 
-    public CCEntityView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+    public CCEntityView(String hash) {
+        this.hash=hash;
+        mainView=createMainView();
     }
 
+    public abstract View createMainView();
 
     @Override
     public void destroy() {
@@ -28,6 +30,14 @@ public class CCEntityView extends View implements EventReceiver {
         switch (eventTag) {
             case EventTag.INIT_SET_EVENT_MANAGER:
                 eventManager=(EventManager) o;
+                break;
+            case EventTag.VIEW_DESTROY:
+                eventManager.broadcastEvent(EventTag.INIT_DESTROY, this);
+                break;
+            case EventTag.VIEW_GET_VIEW:
+                if (((ViewContainer) o).hash.compareTo(hash)==0) {
+                    ((ViewContainer) o).view=mainView;
+                }
                 break;
         }
     }

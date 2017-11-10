@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import android.widget.FrameLayout;
 import EDEMVP.EventManager;
 import EDEMVP.EventReceiver;
-import EDEMVP.HoldingEventManager;
 
 class FragmentControl implements EventReceiver {
     private EventManager eventManager;
@@ -23,15 +22,16 @@ class FragmentControl implements EventReceiver {
     }
 
     private void goToFragment(Fragment fragment) {
-        if (currentFragment!=null) {
-            eventManager.unRegisterReceiver((EventReceiver) currentFragment);
+        if (currentFragment!=fragment) {
+            eventManager.broadcastEvent(EventTag.FRAGMENT_NOW_ACTIVE,null);
+            eventManager.registerReceiver((EventReceiver) fragment);
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(fragmentContainer.getId(), fragment);
+            transaction.commit();
+            fragmentManager.executePendingTransactions();
+            currentFragment = fragment;
         }
-        eventManager.registerReceiver((EventReceiver) fragment);
-        FragmentTransaction transaction=fragmentManager.beginTransaction();
-        transaction.replace(fragmentContainer.getId(),fragment);
-        transaction.commit();
-        fragmentManager.executePendingTransactions();
-        currentFragment=fragment;
+        eventManager.broadcastEvent(EventTag.FRAGMENT_NOW_ACTIVE,null);
     }
 
     @Override
@@ -46,11 +46,10 @@ class FragmentControl implements EventReceiver {
             case EventTag.INIT_SET_EVENT_MANAGER:
                 eventManager = (EventManager) o;
                 break;
-            case EventTag.NAVIGATION_MAIN_FRAGMENT:
-            case EventTag.INIT_FINAL_STAGE:
+            case EventTag.FRAGMENT_MAIN_FRAGMENT:
                 goToFragment(mainFragment);
                 break;
-            case EventTag.NAVIGATION_GO_TO_FRAGMENT:
+            case EventTag.FRAGMENT_GO_TO_FRAGMENT:
                 goToFragment((Fragment) o);
                 break;
         }

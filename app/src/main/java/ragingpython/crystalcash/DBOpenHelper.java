@@ -45,7 +45,7 @@ class DBOpenHelper extends SQLiteOpenHelper implements EventReceiver{
                 break;
             case EventTag.DATABASE_GET_DB:
                 if (database==null) {database=this.getWritableDatabase();}
-                ((DatabaseContainer) o).setSqLiteDatabase(database);
+                ((DatabaseContainer) o).sqLiteDatabase=database;
                 break;
         }
     }
