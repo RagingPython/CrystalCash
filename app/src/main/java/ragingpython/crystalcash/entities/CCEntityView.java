@@ -15,11 +15,10 @@ public abstract class CCEntityView implements EventReceiver {
 
     public CCEntityView(String hash) {
         this.hash=hash;
-        mainView=createMainView();
     }
 
     public abstract View createMainView();
-
+    public abstract void update();
     @Override
     public void destroy() {
         eventManager=null;
@@ -30,6 +29,9 @@ public abstract class CCEntityView implements EventReceiver {
         switch (eventTag) {
             case EventTag.INIT_SET_EVENT_MANAGER:
                 eventManager=(EventManager) o;
+                if (mainView==null) {
+                    mainView = createMainView();
+                }
                 break;
             case EventTag.VIEW_DESTROY:
                 eventManager.broadcastEvent(EventTag.INIT_DESTROY, this);
@@ -38,6 +40,9 @@ public abstract class CCEntityView implements EventReceiver {
                 if (((ViewContainer) o).hash.compareTo(hash)==0) {
                     ((ViewContainer) o).view=mainView;
                 }
+                break;
+            case EventTag.VIEW_UPDATE_ALL:
+                update();
                 break;
         }
     }

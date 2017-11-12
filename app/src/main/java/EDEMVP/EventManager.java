@@ -7,15 +7,23 @@ import java.util.HashSet;
 import ragingpython.crystalcash.EventTag;
 
 public class EventManager {
-    private HashSet<EventReceiver> receivers = new HashSet<EventReceiver>();
+    private EventManagerSet receivers = null;
 
     public void registerReceiver(EventReceiver receiver) {
-        receivers.add(receiver);
+        Log.d("EventManager", "registred "+receiver.getClass().getName());
+        if (receivers==null){
+            receivers=new EventManagerSet(receiver);
+        } else {
+            receivers.add(receiver);
+        }
         receiver.eventMapping(EventTag.INIT_SET_EVENT_MANAGER, this);
     }
 
     public void unRegisterReceiver(EventReceiver receiver){
-        receivers.remove(receiver);
+        Log.d("EventManager", "unregistred "+receiver.getClass().getName());
+        if (receivers!=null) {
+            receivers=receivers.remove(receiver);
+        }
     }
 
     public void broadcastEvent(int eventTag, Object o) {
@@ -24,8 +32,8 @@ public class EventManager {
             unRegisterReceiver((EventReceiver) o);
             ((EventReceiver) o).destroy();
         } else {
-            for (EventReceiver e : receivers) {
-                e.eventMapping(eventTag, o);
+            if (receivers!=null) {
+                receivers.broadcastEvent(eventTag, o);
             }
         }
     }

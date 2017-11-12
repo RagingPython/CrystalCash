@@ -14,8 +14,8 @@ public abstract class CCEntityConstructor implements EventReceiver{
     public EventManager eventManager;
     public SQLiteDatabase database;
 
-    public abstract String getDbCreateQuery();
-    public abstract String getDbDeleteQuery();
+    public abstract void onDbCreate(SQLiteDatabase database);
+    public abstract void onDbDelete(SQLiteDatabase database);
     public abstract void loadEntities();
 
 
@@ -32,10 +32,10 @@ public abstract class CCEntityConstructor implements EventReceiver{
                 eventManager=(EventManager)o;
                 break;
             case EventTag.DATABASE_CREATE_DB:
-                ((SQLiteDatabase) o).execSQL(getDbCreateQuery());
+                onDbCreate((SQLiteDatabase)o);
                 break;
             case EventTag.DATABASE_DELETE_DB:
-                ((SQLiteDatabase) o).execSQL(getDbDeleteQuery());
+                onDbDelete((SQLiteDatabase)o);
                 break;
             case EventTag.ENTITY_CONSTRUCTOR_LOAD_ENTITIES:
                 DatabaseContainer databaseContainer = new DatabaseContainer();

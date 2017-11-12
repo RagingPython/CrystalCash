@@ -45,6 +45,7 @@ public class EntityManager implements EventReceiver{
             eventManager.broadcastEvent(EventTag.VIEW_GET_VIEW, viewContainer);
             eventManager.broadcastEvent(EventTag.FRAGMENT_INSERT_WIDGET, viewContainer.view);
         }
+        eventManager.broadcastEvent(EventTag.VIEW_UPDATE_ALL,null);
     }
 
 
