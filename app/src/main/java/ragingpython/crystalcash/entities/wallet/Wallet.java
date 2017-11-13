@@ -26,8 +26,10 @@ public class Wallet extends CCEntity {
         Cursor cursor = database.rawQuery("select sum(amount) from wallet_operations where wallet_id="+String.valueOf(id),null);
         cursor.moveToFirst();
         if (cursor.getCount()==0){
+            Log.d("wallet", "count==0");
             walletDataContainer.balance=0;
         } else walletDataContainer.balance=cursor.getDouble(0);
+        cursor.close();
     }
 
     @Override

@@ -40,7 +40,7 @@ public class WalletConstructor extends CCEntityConstructor {
         switch (eventTag) {
             case EventTag.ENTITY_WALLET_NEW:
                 database.execSQL("insert into wallet(name) values ('"+(String) o + "')");
-                eventManager.broadcastEvent(EventTag.ENTITY_MANAGER_NEW_ENTITY_CREATED,null);
+                eventManager.broadcastEvent(EventTag.ENTITY_MANAGER_ENTITY_SET_MODIFIED,null);
                 break;
         }
     }

@@ -22,7 +22,7 @@ public class EventTag {
     public static final int DATABASE_GET_DB=3002;                       //DatabaseContainer
     //ENTITY_MANAGER
     public static final int ENTITY_MANAGER_RELOAD_ENTITIES =4000;       //null
-    public static final int ENTITY_MANAGER_NEW_ENTITY_CREATED=4001;     //null
+    public static final int ENTITY_MANAGER_ENTITY_SET_MODIFIED =4001;   //null
     public static final int ENTITY_MANAGER_REFRESH_WIDGETS=4002;        //null
     //ENTITY_CONSTRUCTOR
     public static final int ENTITY_CONSTRUCTOR_LOAD_ENTITIES =5000;     //null

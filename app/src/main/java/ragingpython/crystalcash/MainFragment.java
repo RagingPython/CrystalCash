@@ -45,6 +45,10 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
         entityContainer=null;
     }
 
+    public void reAssignWidgets() {
+
+    }
+
     @Override
     public void eventMapping(int eventTag, Object o) {
         switch(eventTag) {
@@ -56,6 +60,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
                 eventManager=null;
                 break;
             case EventTag.FRAGMENT_NOW_ACTIVE:
+            case EventTag.ENTITY_MANAGER_ENTITY_SET_MODIFIED:
                 eventManager.broadcastEvent(EventTag.ENTITY_MANAGER_REFRESH_WIDGETS,null);
                 break;
             case EventTag.FRAGMENT_CLEAR_WIDGETS:

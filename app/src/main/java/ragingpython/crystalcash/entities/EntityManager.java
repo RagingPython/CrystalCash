@@ -68,7 +68,7 @@ public class EntityManager implements EventReceiver{
             case EventTag.DATABASE_DELETE_DB:
                 ((SQLiteDatabase) o).execSQL(DELETE_DB);
                 break;
-            case EventTag.ENTITY_MANAGER_NEW_ENTITY_CREATED:
+            case EventTag.ENTITY_MANAGER_ENTITY_SET_MODIFIED:
             case EventTag.ENTITY_MANAGER_RELOAD_ENTITIES:
                 initialize();
                 break;
