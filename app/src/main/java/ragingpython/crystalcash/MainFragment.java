@@ -14,7 +14,7 @@ import EDEMVP.EventReceiver;
 
 public class MainFragment extends Fragment implements View.OnClickListener, EventReceiver{
     LinearLayout entityContainer;
-    Button buttonCreateWallet;
+    Button buttonGoToMenu;
     EventManager eventManager;
 
 
@@ -23,8 +23,8 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
         View view;
         view=inflater.inflate(R.layout.fragment_main, container, false);
         entityContainer = view.findViewById(R.id._entityContainer);
-        buttonCreateWallet = view.findViewById(R.id._buttonCreateWallet);
-        buttonCreateWallet.setOnClickListener(this);
+        buttonGoToMenu = view.findViewById(R.id._button_goToMenu);
+        buttonGoToMenu.setOnClickListener(this);
         return view;
     }
 
@@ -37,7 +37,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
 
     @Override
     public void onClick(View view) {
-        eventManager.broadcastEvent(EventTag.ENTITY_WALLET_NEW,"test!");
+        eventManager.broadcastEvent(EventTag.FRAGMENT_MENU_FRAGMENT, null);
     }
 
     @Override
@@ -49,7 +49,6 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
 
     @Override
     public void eventMapping(int eventTag, Object o) {
-        Log.d("mainFragment","receiv tag "+String.valueOf(eventTag));
         switch(eventTag) {
             case EventTag.INIT_SET_EVENT_MANAGER:
                 eventManager = (EventManager) o;

@@ -2,8 +2,11 @@ package ragingpython.crystalcash.entities.wallet;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.ViewGroup;
 
 import ragingpython.crystalcash.EventTag;
+import ragingpython.crystalcash.containers.InflateRequest;
+import ragingpython.crystalcash.containers.ViewContainer;
 import ragingpython.crystalcash.entities.CCEntityConstructor;
 
 
@@ -32,6 +35,12 @@ public class WalletConstructor extends CCEntityConstructor {
             }
             cursor.close();
         }
+    }
+
+    @Override
+    public void insertCreationView(ViewGroup viewGroup) {
+        InflateRequest inflateRequest = new InflateRequest();
+
     }
 
     @Override

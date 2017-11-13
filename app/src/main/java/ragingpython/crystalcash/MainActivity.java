@@ -45,6 +45,11 @@ public class MainActivity extends Activity implements EventReceiver{
     }
 
     @Override
+    public void onBackPressed() {
+        eventManager.broadcastEvent(EventTag.ACTIVITY_BACK_BUTTON,null);
+    }
+
+    @Override
     public void destroy() {
         eventManager=null;
     }
@@ -60,6 +65,9 @@ public class MainActivity extends Activity implements EventReceiver{
                 break;
             case EventTag.ACTIVITY_INFLATE:
                 doInflate((InflateRequest) o);
+                break;
+            case EventTag.ACTIVITY_EXIT:
+                finish();
                 break;
         }
     }

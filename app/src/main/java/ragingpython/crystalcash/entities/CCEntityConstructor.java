@@ -1,6 +1,7 @@
 package ragingpython.crystalcash.entities;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.view.ViewGroup;
 
 import java.util.LinkedList;
 
@@ -17,6 +18,7 @@ public abstract class CCEntityConstructor implements EventReceiver{
     public abstract void onDbCreate(SQLiteDatabase database);
     public abstract void onDbDelete(SQLiteDatabase database);
     public abstract void loadEntities();
+    public abstract void insertCreationView(ViewGroup viewGroup);
 
 
     @Override
@@ -42,6 +44,9 @@ public abstract class CCEntityConstructor implements EventReceiver{
                 eventManager.broadcastEvent(EventTag.DATABASE_GET_DB, databaseContainer);
                 database=databaseContainer.sqLiteDatabase;
                 loadEntities();
+                break;
+            case EventTag.ENTITY_CONSTRUCTOR_INSERT_CREATION_VIEW:
+                insertCreationView((ViewGroup) o);
                 break;
         }
     }

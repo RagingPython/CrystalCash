@@ -1,6 +1,7 @@
 v0.1.0
-    -create entity manager
-    -create entity structure
-    -handle back button
+    +create entity manager
+    +create entity structure
 
+
+    -handle back button
     -create visual style

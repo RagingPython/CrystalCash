@@ -13,11 +13,14 @@ class FragmentControl implements EventReceiver {
     private FrameLayout fragmentContainer;
     private Fragment currentFragment = null;
     private MainFragment mainFragment;
+    private MenuFragment menuFragment;
 
     FragmentControl(FragmentManager fragmentManager, FrameLayout fragmentContainer) {
         this.fragmentManager=fragmentManager;
         this.fragmentContainer=fragmentContainer;
         mainFragment = new MainFragment();
+        menuFragment = new MenuFragment();
+
 
     }
 
@@ -51,6 +54,16 @@ class FragmentControl implements EventReceiver {
                 break;
             case EventTag.FRAGMENT_GO_TO_FRAGMENT:
                 goToFragment((Fragment) o);
+                break;
+            case EventTag.FRAGMENT_MENU_FRAGMENT:
+                goToFragment(menuFragment);
+                break;
+            case EventTag.ACTIVITY_BACK_BUTTON:
+                if (currentFragment==mainFragment) {
+                    eventManager.broadcastEvent(EventTag.ACTIVITY_EXIT,null);
+                } else {
+                    goToFragment(mainFragment);
+                }
                 break;
         }
     }
