@@ -15,7 +15,6 @@ public class Wallet extends CCEntity {
 
 
     public Wallet(Cursor cursor) {
-        Log.d("wallet", "wallet created!!!");
         id=cursor.getInt(cursor.getColumnIndex("id"));
         name=cursor.getString(cursor.getColumnIndex("name"));
     }
@@ -28,7 +27,10 @@ public class Wallet extends CCEntity {
         if (cursor.getCount()==0){
             Log.d("wallet", "count==0");
             walletDataContainer.balance=0;
-        } else walletDataContainer.balance=cursor.getDouble(0);
+        } else {
+            walletDataContainer.balance=cursor.getDouble(0);
+            Log.d("wallet", "balance="+walletDataContainer.balance);
+        }
         cursor.close();
     }
 

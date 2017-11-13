@@ -2,6 +2,7 @@ package ragingpython.crystalcash;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,12 +46,10 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
         entityContainer=null;
     }
 
-    public void reAssignWidgets() {
-
-    }
 
     @Override
     public void eventMapping(int eventTag, Object o) {
+        Log.d("mainFragment","receiv tag "+String.valueOf(eventTag));
         switch(eventTag) {
             case EventTag.INIT_SET_EVENT_MANAGER:
                 eventManager = (EventManager) o;
@@ -71,4 +70,6 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
                 break;
         }
     }
+
+
 }

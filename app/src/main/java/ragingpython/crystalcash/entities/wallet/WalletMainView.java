@@ -10,7 +10,7 @@ import ragingpython.crystalcash.entities.CCEntityView;
 
 
 public class WalletMainView extends CCEntityView {
-    TextView walletName,walletBalance;
+    private TextView walletName,walletBalance;
 
     public WalletMainView(String hash) {
         super(hash);
