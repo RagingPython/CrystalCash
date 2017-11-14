@@ -28,6 +28,7 @@ public abstract class CCEntityConstructor implements EventReceiver, OnClickListe
 
     public void initialize() {
         InflateRequest inflateRequest = new InflateRequest(R.layout.element_new_widget);
+        eventManager.broadcastEvent(EventTag.ACTIVITY_INFLATE, inflateRequest);
         inflateRequest.view.findViewById(R.id._button_addNewWidget).setOnClickListener(this);
         ((TextView)inflateRequest.view.findViewById(R.id._textView_addingEntityName)).setText(getName());
         createEntityView=inflateRequest.view;
