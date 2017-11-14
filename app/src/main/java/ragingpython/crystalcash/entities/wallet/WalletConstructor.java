@@ -26,7 +26,7 @@ public class WalletConstructor extends CCEntityConstructor {
 
     @Override
     public void loadEntities() {
-        CursorContainer cursorContainer = new CursorContainer("select from wallet");
+        CursorContainer cursorContainer = new CursorContainer("select * from wallet");
         eventManager.broadcastEvent(EventTag.DATABASE_RAW_QUERY, cursorContainer);
         Cursor cursor = cursorContainer.cursor;
         if (cursor!=null) {
@@ -44,15 +44,17 @@ public class WalletConstructor extends CCEntityConstructor {
         return "wallet";
     }
 
+    @Override
+    public void createEntity() {
+        eventManager.broadcastEvent(EventTag.DATABASE_RAW_QUERY,"insert into wallet(name) values ('New wallet')");
+    }
+
 
     @Override
     public void eventMapping(int eventTag, Object o) {
         super.eventMapping(eventTag, o);
         switch (eventTag) {
-            case EventTag.ENTITY_WALLET_NEW:
-                eventManager.broadcastEvent(EventTag.DATABASE_RAW_QUERY,"insert into wallet(name) values ('"+(String) o + "')");
-                eventManager.broadcastEvent(EventTag.ENTITY_MANAGER_RELOAD_ENTITIES,null);
-                break;
+
         }
     }
 }

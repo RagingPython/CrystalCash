@@ -28,11 +28,11 @@ public class EventTag {
     //ENTITY_CONSTRUCTOR
     public static final int ENTITY_CONSTRUCTOR_LOAD_ENTITIES =5000;     //null
     public static final int ENTITY_CONSTRUCTOR_GET_NAME =5001;          //HashSet
+    public static final int ENTITY_CONSTRUCTOR_NEW_ENTITY =5002;        //String(name)
+    public static final int ENTITY_CONSTRUCTOR_GET_ADD_VIEW =5003;      //ViewContainer
     //ENTITY
     public static final int ENTITY_DESTROY =6000;                       //null
     public static final int ENTITY_GET_HASH =6001;                      //HashSet
     public static final int ENTITY_GET_MAIN_VIEW=6002;                  //ViewContainer
-    public static final int ENTITY_REFRESH=6003;                        //null
-    // WALLET
-    public static final int ENTITY_WALLET_NEW = 6100;                   //String
+    public static final int ENTITY_REFRESH=6003;                        //null (or String(hash))
 }
