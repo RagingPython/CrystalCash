@@ -46,7 +46,7 @@ public class WalletConstructor extends CCEntityConstructor {
 
     @Override
     public void createEntity() {
-        eventManager.broadcastEvent(EventTag.DATABASE_RAW_QUERY,"insert into wallet(name) values ('New wallet')");
+        eventManager.broadcastEvent(EventTag.DATABASE_EXEC_SQL,"insert into wallet(name) values ('New wallet')");
     }
 
 
