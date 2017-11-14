@@ -14,8 +14,20 @@ import EDEMVP.EventReceiver;
 
 public class MainFragment extends Fragment implements View.OnClickListener, EventReceiver{
     LinearLayout entityContainer;
-    Button buttonGoToMenu;
     EventManager eventManager;
+
+
+
+    private void refresh(){
+        entityContainer.removeAllViews();
+        eventManager.broadcastEvent(EventTag.ENTITY_MANAGER_INSERT_WIDGETS, entityContainer);
+
+        //TODO: add + button
+
+
+        //TODO: add adding buttons
+        eventManager.broadcastEvent(EventTag.ENTITY_REFRESH, null);
+    }
 
 
     @Override
@@ -23,8 +35,6 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
         View view;
         view=inflater.inflate(R.layout.fragment_main, container, false);
         entityContainer = view.findViewById(R.id._entityContainer);
-        buttonGoToMenu = view.findViewById(R.id._button_goToMenu);
-        buttonGoToMenu.setOnClickListener(this);
         return view;
     }
 
@@ -37,7 +47,6 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
 
     @Override
     public void onClick(View view) {
-        eventManager.broadcastEvent(EventTag.FRAGMENT_MENU_FRAGMENT, null);
     }
 
     @Override
@@ -57,15 +66,10 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
                 eventManager.unRegisterReceiver(this);
                 eventManager=null;
                 break;
+            case EventTag.ENTITY_MANAGER_RELOAD_ENTITIES:
             case EventTag.FRAGMENT_NOW_ACTIVE:
-            case EventTag.ENTITY_MANAGER_ENTITY_SET_MODIFIED:
-                eventManager.broadcastEvent(EventTag.ENTITY_MANAGER_REFRESH_WIDGETS,null);
-                break;
-            case EventTag.FRAGMENT_CLEAR_WIDGETS:
-                entityContainer.removeAllViews();
-                break;
-            case EventTag.FRAGMENT_INSERT_WIDGET:
-                entityContainer.addView((View) o);
+            case EventTag.FRAGMENT_MAIN_REFRESH:
+                refresh();
                 break;
         }
     }

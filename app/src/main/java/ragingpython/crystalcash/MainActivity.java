@@ -41,7 +41,7 @@ public class MainActivity extends Activity implements EventReceiver{
     @Override
     protected void onResume() {
         super.onResume();
-        eventManager.broadcastEvent(EventTag.FRAGMENT_MAIN_FRAGMENT, null);
+        eventManager.broadcastEvent(EventTag.FRAGMENT_MAIN_ACTIVATE, null);
     }
 
     @Override

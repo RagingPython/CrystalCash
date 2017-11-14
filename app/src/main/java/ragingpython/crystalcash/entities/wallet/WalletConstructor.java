@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.view.ViewGroup;
 
 import ragingpython.crystalcash.EventTag;
+import ragingpython.crystalcash.containers.CursorContainer;
 import ragingpython.crystalcash.containers.InflateRequest;
-import ragingpython.crystalcash.containers.ViewContainer;
 import ragingpython.crystalcash.entities.CCEntityConstructor;
 
 
@@ -26,7 +26,9 @@ public class WalletConstructor extends CCEntityConstructor {
 
     @Override
     public void loadEntities() {
-        Cursor cursor = database.query("wallet",null,null,null,null,null,null);
+        CursorContainer cursorContainer = new CursorContainer("select from wallet");
+        eventManager.broadcastEvent(EventTag.DATABASE_RAW_QUERY, cursorContainer);
+        Cursor cursor = cursorContainer.cursor;
         if (cursor!=null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -38,18 +40,18 @@ public class WalletConstructor extends CCEntityConstructor {
     }
 
     @Override
-    public void insertCreationView(ViewGroup viewGroup) {
-        InflateRequest inflateRequest = new InflateRequest();
-
+    public String getName() {
+        return "wallet";
     }
+
 
     @Override
     public void eventMapping(int eventTag, Object o) {
         super.eventMapping(eventTag, o);
         switch (eventTag) {
             case EventTag.ENTITY_WALLET_NEW:
-                database.execSQL("insert into wallet(name) values ('"+(String) o + "')");
-                eventManager.broadcastEvent(EventTag.ENTITY_MANAGER_ENTITY_SET_MODIFIED,null);
+                eventManager.broadcastEvent(EventTag.DATABASE_RAW_QUERY,"insert into wallet(name) values ('"+(String) o + "')");
+                eventManager.broadcastEvent(EventTag.ENTITY_MANAGER_RELOAD_ENTITIES,null);
                 break;
         }
     }

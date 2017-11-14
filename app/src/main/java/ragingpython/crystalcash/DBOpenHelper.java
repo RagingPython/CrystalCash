@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import EDEMVP.EventManager;
 import EDEMVP.EventReceiver;
-import ragingpython.crystalcash.containers.DatabaseContainer;
+import ragingpython.crystalcash.containers.CursorContainer;
 
 
 class DBOpenHelper extends SQLiteOpenHelper implements EventReceiver{
@@ -17,6 +17,7 @@ class DBOpenHelper extends SQLiteOpenHelper implements EventReceiver{
 
     DBOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        database=getWritableDatabase();
     }
 
     @Override
@@ -43,9 +44,11 @@ class DBOpenHelper extends SQLiteOpenHelper implements EventReceiver{
             case EventTag.INIT_SET_EVENT_MANAGER:
                 eventManager= (EventManager) o;
                 break;
-            case EventTag.DATABASE_GET_DB:
-                if (database==null) {database=this.getWritableDatabase();}
-                ((DatabaseContainer) o).sqLiteDatabase=database;
+            case EventTag.DATABASE_EXEC_SQL:
+                database.execSQL((String) o);
+                break;
+            case EventTag.DATABASE_RAW_QUERY:
+                ((CursorContainer) o).cursor=database.rawQuery(((CursorContainer) o).sql,null);
                 break;
         }
     }
