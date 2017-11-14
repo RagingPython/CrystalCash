@@ -37,6 +37,7 @@ public abstract class CCEntityConstructor implements EventReceiver, OnClickListe
     @Override
     public void onClick(View view){
         createEntity();
+        eventManager.broadcastEvent(EventTag.ENTITY_MANAGER_RELOAD_ENTITIES, null);
     }
 
     @Override
