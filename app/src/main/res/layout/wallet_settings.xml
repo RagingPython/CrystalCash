@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <EditText
+        android:id="@+id/_editText_wallet_newName"
+        android:layout_width="45dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/_button_wallet_delete"
+        android:layout_toStartOf="@+id/_button_wallet_delete"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Wallet name" />
+
+    <Button
+        android:id="@+id/_button_wallet_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="delete" />
+</RelativeLayout>

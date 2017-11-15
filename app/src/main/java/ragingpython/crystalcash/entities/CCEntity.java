@@ -11,20 +11,21 @@ import ragingpython.crystalcash.containers.ViewContainer;
 
 public abstract class CCEntity implements EventReceiver{
     public EventManager eventManager;
-    public View mainView;
+    public View currentView;
 
     public abstract View createMainView();
     public abstract String getHash();
     public abstract void refresh();
+    public abstract void setMode(boolean mode);
 
-    public View getMainView(){
-        return mainView;
+    public View getCurrentView(){
+        return currentView;
     }
 
     @Override
     public void destroy() {
         eventManager=null;
-        mainView=null;
+        currentView =null;
     }
 
     @Override
@@ -32,7 +33,7 @@ public abstract class CCEntity implements EventReceiver{
         switch (eventTag) {
             case EventTag.INIT_SET_EVENT_MANAGER:
                 eventManager= (EventManager) o;
-                mainView=createMainView();
+                currentView =createMainView();
                 break;
             case EventTag.ENTITY_DESTROY:
                 eventManager.broadcastEvent(EventTag.INIT_DESTROY, this);
@@ -42,7 +43,7 @@ public abstract class CCEntity implements EventReceiver{
                 break;
             case EventTag.ENTITY_GET_MAIN_VIEW:
                 if (getHash().compareTo(((ViewContainer)o).hash)==0) {
-                    ((ViewContainer) o).view = getMainView();
+                    ((ViewContainer) o).view = getCurrentView();
                 }
                 break;
             case EventTag.ENTITY_REFRESH:
@@ -51,6 +52,9 @@ public abstract class CCEntity implements EventReceiver{
                 } else if (getHash().compareTo((String) o)==0) {
                     refresh();
                 }
+                break;
+            case EventTag.ENTITY_SET_MODE:
+                setMode((boolean) o);
                 break;
         }
     }

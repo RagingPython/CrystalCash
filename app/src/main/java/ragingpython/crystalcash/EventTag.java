@@ -17,6 +17,8 @@ public class EventTag {
     //MAIN_FRAGMENT
     public static final int FRAGMENT_MAIN_ACTIVATE =2100;               //null
     public static final int FRAGMENT_MAIN_REFRESH=2101;                 //null
+    public static final int FRAGMENT_MAIN_LOCK_ON=2102;                 //CCEntity
+    public static final int FRAGMENT_MAIN_UNLOCK=2103;                  //null
     //DATABASE
     public static final int DATABASE_CREATE_DB=3000;                    //SQLiteDatabase
     public static final int DATABASE_DELETE_DB=3001;                    //SQLiteDatabase
@@ -35,4 +37,5 @@ public class EventTag {
     public static final int ENTITY_GET_HASH =6001;                      //HashSet
     public static final int ENTITY_GET_MAIN_VIEW=6002;                  //ViewContainer
     public static final int ENTITY_REFRESH=6003;                        //null (or String(hash))
+    public static final int ENTITY_SET_MODE=6004;                       //boolean
 }

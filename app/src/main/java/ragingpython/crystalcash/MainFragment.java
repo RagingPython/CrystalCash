@@ -13,6 +13,7 @@ import java.util.HashSet;
 import EDEMVP.EventManager;
 import EDEMVP.EventReceiver;
 import ragingpython.crystalcash.containers.ViewContainer;
+import ragingpython.crystalcash.entities.CCEntity;
 
 public class MainFragment extends Fragment implements View.OnClickListener, EventReceiver{
     LinearLayout entityContainer;
@@ -20,23 +21,30 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
     View plusView;
     Button plusButton;
     boolean settingsMode=false;
+   CCEntity lockedEntity =null;
 
 
     private void refresh(){
+        eventManager.broadcastEvent(EventTag.ENTITY_SET_MODE, settingsMode);
         entityContainer.removeAllViews();
-        eventManager.broadcastEvent(EventTag.ENTITY_MANAGER_INSERT_WIDGETS, entityContainer);
-        entityContainer.addView(plusView);
-        if (settingsMode){
-            HashSet<String> names= new HashSet<String>();
-            eventManager.broadcastEvent(EventTag.ENTITY_CONSTRUCTOR_GET_NAME, names);
-            ViewContainer viewContainer=new ViewContainer();
-            for (String s:names) {
-                viewContainer.hash=s;
-                eventManager.broadcastEvent(EventTag.ENTITY_CONSTRUCTOR_GET_ADD_VIEW,viewContainer);
-                entityContainer.addView(viewContainer.view);
+        if (lockedEntity !=null) {
+            lockedEntity.refresh();
+            entityContainer.addView(lockedEntity.getCurrentView());
+        } else {
+            eventManager.broadcastEvent(EventTag.ENTITY_MANAGER_INSERT_WIDGETS, entityContainer);
+            entityContainer.addView(plusView);
+            if (settingsMode) {
+                HashSet<String> names = new HashSet<String>();
+                eventManager.broadcastEvent(EventTag.ENTITY_CONSTRUCTOR_GET_NAME, names);
+                ViewContainer viewContainer = new ViewContainer();
+                for (String s : names) {
+                    viewContainer.hash = s;
+                    eventManager.broadcastEvent(EventTag.ENTITY_CONSTRUCTOR_GET_ADD_VIEW, viewContainer);
+                    entityContainer.addView(viewContainer.view);
+                }
             }
+            eventManager.broadcastEvent(EventTag.ENTITY_REFRESH, null);
         }
-        eventManager.broadcastEvent(EventTag.ENTITY_REFRESH, null);
     }
 
 
@@ -86,6 +94,16 @@ public class MainFragment extends Fragment implements View.OnClickListener, Even
             case EventTag.ENTITY_MANAGER_RELOAD_ENTITIES:
             case EventTag.FRAGMENT_NOW_ACTIVE:
             case EventTag.FRAGMENT_MAIN_REFRESH:
+                refresh();
+                break;
+            case EventTag.FRAGMENT_MAIN_LOCK_ON:
+                if (!settingsMode) {
+                    lockedEntity = (CCEntity) o;
+                }
+                refresh();
+                break;
+            case EventTag.FRAGMENT_MAIN_UNLOCK:
+                lockedEntity =null;
                 refresh();
                 break;
         }
