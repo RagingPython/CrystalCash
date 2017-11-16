@@ -58,7 +58,7 @@ public class Wallet extends CCEntity implements View.OnClickListener, TextView.O
 
     @Override
     public void refresh() {
-        CursorContainer cursorContainer = new CursorContainer("select w.name, sum(wo.amount) from wallet as w left join wallet_operations as wo on w.id=w0.wallet_id where w.id=" + String.valueOf(id) + " group by w.name");
+        CursorContainer cursorContainer = new CursorContainer("select w.name, sum(wo.amount) from wallet as w left join wallet_operations as wo on w.id=wo.wallet_id where w.id=" + String.valueOf(id) + " group by w.name");
         eventManager.broadcastEvent(EventTag.DATABASE_RAW_QUERY, cursorContainer);
         Cursor cursor = cursorContainer.cursor;
         cursor.moveToFirst();
@@ -103,7 +103,7 @@ public class Wallet extends CCEntity implements View.OnClickListener, TextView.O
     @Override
     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
         if (i== EditorInfo.IME_ACTION_DONE) {
-            eventManager.broadcastEvent(EventTag.DATABASE_EXEC_SQL, "update wallet set name=" + textView.getText()+"where id="+String.valueOf(id));
+            eventManager.broadcastEvent(EventTag.DATABASE_EXEC_SQL, "update wallet set name='" + textView.getText()+"' where id="+String.valueOf(id));
             refresh();
         }
         return false;
