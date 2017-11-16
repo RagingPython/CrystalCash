@@ -13,8 +13,11 @@
         android:layout_toLeftOf="@+id/_button_wallet_delete"
         android:layout_toStartOf="@+id/_button_wallet_delete"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Wallet name" />
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        android:text="Wallet name"
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/_button_wallet_delete"
