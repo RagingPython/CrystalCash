@@ -17,7 +17,6 @@ class DBOpenHelper extends SQLiteOpenHelper implements EventReceiver{
 
     DBOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        database=getWritableDatabase();
     }
 
     @Override
@@ -43,6 +42,7 @@ class DBOpenHelper extends SQLiteOpenHelper implements EventReceiver{
         switch (eventTag) {
             case EventTag.INIT_SET_EVENT_MANAGER:
                 eventManager= (EventManager) o;
+                database=getWritableDatabase();
                 break;
             case EventTag.DATABASE_EXEC_SQL:
                 database.execSQL((String) o);

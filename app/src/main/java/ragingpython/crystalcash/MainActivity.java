@@ -24,8 +24,8 @@ public class MainActivity extends Activity implements EventReceiver{
         eventManager = new EventManager();
 
         eventManager.registerReceiver(this);
-        eventManager.registerReceiver(new DBOpenHelper(getApplicationContext()));
         eventManager.registerReceiver(new EntityManager());
+        eventManager.registerReceiver(new DBOpenHelper(getApplicationContext()));
         eventManager.registerReceiver(new FragmentControl(getFragmentManager(), fragmentContainer));
 
 
